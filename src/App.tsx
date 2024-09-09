@@ -5,6 +5,7 @@ import { EventProvider } from './contexts/EventContext';
 import DashboardLayout from './components/DashboardLayout';
 import ListView from './components/ListView';
 import CalendarView from './components/CalendarView';
+import "./styles/global.css";
 
 function App() {
   return (

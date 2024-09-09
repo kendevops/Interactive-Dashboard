@@ -1,5 +1,4 @@
-// contexts/EventContext.tsx
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { DateTime } from 'luxon';
 
 interface Event {
@@ -16,7 +15,7 @@ interface EventContextProps {
   deleteEvent: (id: number) => void;
 }
 
-const EventContext = createContext<EventContextProps | undefined>(undefined);
+export const EventContext = createContext<EventContextProps | undefined>(undefined);
 
 
 export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

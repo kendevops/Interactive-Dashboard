@@ -1,11 +1,13 @@
 import React from 'react';
 import Sidebar from './Sidebar';
+import styles from '../styles/DashboardLayout.module.css';
+
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="dashboard-layout">
+      <div className={styles.dashboardLayout}>
       <Sidebar />
-      <main className="content">
+      <main className={styles.mainContent}>
         {children}
       </main>
     </div>
