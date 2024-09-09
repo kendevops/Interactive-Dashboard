@@ -1,14 +1,15 @@
 // ListView.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useEvents from '../customHooks/useEvents'; // Import the useEvents custom hook
 import EventModal from './EventModal';
+import { Event } from '../types/EventTypes';
 
 const ListView = () => {
   const { events, deleteEvent } = useEvents(); // Use the custom hook to access events and functions
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentEvent, setCurrentEvent] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
 
-  const handleOpenModal = (event = null) => {
+  const handleOpenModal = (event: Event | null = null) => {
     setCurrentEvent(event); // Set to null for new event or pass the existing event for editing
     setIsModalOpen(true);
   };

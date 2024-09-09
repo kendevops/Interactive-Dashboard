@@ -46,7 +46,6 @@
   font-size: 1.2em;
 } */
 
-/* styles/Sidebar.module.css */
 .sidebar {
   padding: 20px;
   background: #fff;
@@ -68,7 +67,7 @@
 }
 
 .sidebar nav ul li a:hover,
-.sidebar nav ul li a.active {
+.sidebar nav ul li .activeLink {
   background-color: #eee;
 }
 

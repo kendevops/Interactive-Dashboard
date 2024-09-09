@@ -2,24 +2,28 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import useEvents from '../customHooks/useEvents';
 import { DateTime } from 'luxon';
+import styles from '../styles/EventModal.module.css';
+import { Event as CalendarEvent } from '../types/EventTypes';
+
 
 Modal.setAppElement('#root'); // Required for accessibility
 
 interface EventModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  eventToEdit?: any;
+    eventToEdit?: any;
+    onSave?: (event: CalendarEvent) => void;
 }
 
-const EventModal: React.FC<EventModalProps> = ({ isOpen, onRequestClose, eventToEdit }) => {
+const EventModal = ({ isOpen, onRequestClose, eventToEdit }: EventModalProps) => {
   const { addEvent, editEvent } = useEvents();
   const [title, setTitle] = useState(eventToEdit ? eventToEdit.title : '');
   const [start, setStart] = useState(eventToEdit ? eventToEdit.start.toISO() : '');
   const [end, setEnd] = useState(eventToEdit ? eventToEdit.end.toISO() : '');
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
+      e.preventDefault();
+      
     const eventPayload = {
       id: eventToEdit ? eventToEdit.id : Date.now(),
       title,
@@ -41,8 +45,8 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onRequestClose, eventTo
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel={eventToEdit ? "Edit Event" : "Create Event"}
-      className="modal"
-      overlayClassName="modal-overlay"
+      className={styles.modal}
+      overlayClassName={styles.modalOverlay}
     >
       <h2>{eventToEdit ? "Edit Event" : "Create Event"}</h2>
       <form onSubmit={handleSubmit}>

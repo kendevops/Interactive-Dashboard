@@ -6,7 +6,7 @@ import styles from '../styles/Sidebar.module.css'; // Import the CSS module
 const Sidebar = () => {
   return (
     <div className={styles.sidebar}>
-      <nav className="menu">
+      <nav className={styles.menu}>
         <ul>
           <li>
             <NavLink to="/list-view" className={({ isActive }) => (isActive ? styles.activeLink : '')}>

@@ -1,0 +1,13 @@
+/* styles/CalendarView.module.css */
+.calendarView {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+  .calendarView .rbc-calendar {
+    all: unset; /* Resets styles for smaller screens if necessary */
+  }
+}

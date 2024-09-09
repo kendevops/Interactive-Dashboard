@@ -1,18 +1,15 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { DateTime } from 'luxon';
+import { Event } from '../types/EventTypes';
 
-interface Event {
-  id: number;
-  title: string;
-  start: DateTime;
-  end: DateTime;
-}
+
 
 interface EventContextProps {
   events: Event[];
   addEvent: (event: Event) => void;
   editEvent: (event: Event) => void;
-  deleteEvent: (id: number) => void;
+  updateEvent: (id: number | string, updateEvent: Event) => void;
+  deleteEvent: (id: number | string) => void;
 }
 
 export const EventContext = createContext<EventContextProps | undefined>(undefined);
@@ -46,12 +43,21 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setEvents(events.map(event => (event.id === updatedEvent.id ? updatedEvent : event)));
   };
 
-  const deleteEvent = (id: number) => {
+  const updateEvent = (id: number | string, updatedEvent: Event) => {
+  setEvents(events.map(event => {
+    if (event.id === id) {
+      return { ...event, ...updatedEvent };
+    }
+    return event;
+  }));
+};
+
+  const deleteEvent = (id: number | string) => {
     setEvents(events.filter(event => event.id !== id));
   };
 
   return (
-    <EventContext.Provider value={{ events, addEvent, editEvent, deleteEvent }}>
+    <EventContext.Provider value={{ events, addEvent, editEvent, updateEvent, deleteEvent }}>
       {children}
     </EventContext.Provider>
   );
