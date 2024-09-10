@@ -1,29 +1,34 @@
-import React, { useState } from 'react';
-import Modal from 'react-modal';
-import useEvents from '../customHooks/useEvents';
-import { DateTime } from 'luxon';
-import styles from '../styles/EventModal.module.css';
-import { Event as CalendarEvent } from '../types/EventTypes';
+import React, { useState } from "react";
+import Modal from "react-modal";
+import useEvents from "../customHooks/useEvents";
+import { DateTime } from "luxon";
+import styles from "../styles/EventModal.module.css";
+import { Event as CalendarEvent } from "../types/EventTypes";
 
-
-Modal.setAppElement('#root'); // Required for accessibility
+Modal.setAppElement("#root"); // Required for accessibility
 
 interface EventModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-    eventToEdit?: any;
-    onSave?: (event: CalendarEvent) => void;
+  eventToEdit?: any;
+  onSave?: (event: CalendarEvent) => void;
 }
 
-const EventModal = ({ isOpen, onRequestClose, eventToEdit }: EventModalProps) => {
+const EventModal = ({
+  isOpen,
+  onRequestClose,
+  eventToEdit,
+}: EventModalProps) => {
   const { addEvent, editEvent } = useEvents();
-  const [title, setTitle] = useState(eventToEdit ? eventToEdit.title : '');
-  const [start, setStart] = useState(eventToEdit ? eventToEdit.start.toISO() : '');
-  const [end, setEnd] = useState(eventToEdit ? eventToEdit.end.toISO() : '');
+  const [title, setTitle] = useState(eventToEdit ? eventToEdit.title : "");
+  const [start, setStart] = useState(
+    eventToEdit ? eventToEdit.start.toISO() : ""
+  );
+  const [end, setEnd] = useState(eventToEdit ? eventToEdit.end.toISO() : "");
 
   const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      
+    e.preventDefault();
+
     const eventPayload = {
       id: eventToEdit ? eventToEdit.id : Date.now(),
       title,
@@ -36,7 +41,7 @@ const EventModal = ({ isOpen, onRequestClose, eventToEdit }: EventModalProps) =>
     } else {
       addEvent(eventPayload);
     }
-    
+
     onRequestClose();
   };
 

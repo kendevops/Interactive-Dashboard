@@ -1,13 +1,13 @@
 // components/CalendarView.tsx
-import React, { useState } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import useEvents from '../customHooks/useEvents';
-import EventModal from './EventModal';
-import { DateTime } from 'luxon';
-import { Event } from '../types/EventTypes'; // Import your Event type
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import styles from '../styles/CalendarView.module.css';
+import React, { useState } from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
+import useEvents from "../customHooks/useEvents";
+import EventModal from "./EventModal";
+import { DateTime } from "luxon";
+import { Event } from "../types/EventTypes"; // Import your Event type
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import styles from "../styles/CalendarView.module.css";
 
 const localizer = momentLocalizer(moment);
 
@@ -16,11 +16,13 @@ const CalendarView = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
+  // Convert Luxon DateTime to native JavaScript Date for the calendar
+  const toNativeDate = (dateTime: DateTime) => dateTime.toJSDate();
+
   const handleSelectSlot = (slotInfo: { start: Date; end: Date }) => {
-    // Create a new event structure here when slot is selected
     const newEvent: Event = {
-      id: Math.random(), // Replace with better ID generation
-      title: '',
+      id: DateTime.now().toMillis(), // Replace with a better ID generation strategy if needed
+      title: "",
       start: DateTime.fromJSDate(slotInfo.start),
       end: DateTime.fromJSDate(slotInfo.end),
     };
@@ -35,7 +37,7 @@ const CalendarView = () => {
 
   const handleEventSave = (event: Event) => {
     if (selectedEvent && selectedEvent.id) {
-      updateEvent(event.id, event);
+      updateEvent(selectedEvent.id, event);
     } else {
       addEvent(event);
     }
@@ -44,21 +46,22 @@ const CalendarView = () => {
 
   return (
     <div className={styles.calendarView}>
+      <h1>Event Calendar</h1>
       <Calendar
         localizer={localizer}
-        events={events.map(event => ({
+        events={events.map((event) => ({
           id: event.id,
           title: event.title,
-          start: event.start,
-          end: event.end,
+          start: toNativeDate(event.start),
+          end: toNativeDate(event.end),
         }))}
         startAccessor="start"
         endAccessor="end"
         selectable
         onSelectSlot={handleSelectSlot}
-        onSelectEvent={handleSelectEvent as any} // Type cast if necessary
-        style={{ height: 500 }}
-        views={['month', 'week', 'day']}
+        onSelectEvent={handleSelectEvent as any}
+        style={{ height: "80vh" }}
+        views={["month", "week", "day"]}
       />
       {isModalOpen && selectedEvent && (
         <EventModal

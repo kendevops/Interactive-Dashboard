@@ -15,24 +15,26 @@ interface EventContextProps {
 export const EventContext = createContext<EventContextProps | undefined>(undefined);
 
 
-export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const EventProvider = ({ children }: { children: React.ReactNode }) => {
   const [events, setEvents] = useState<Event[]>([]);
 
   // Load events from local storage on mount
   useEffect(() => {
-    const storedEvents = localStorage.getItem('events');
+    const storedEvents = localStorage.getItem("events");
     if (storedEvents) {
-      setEvents(JSON.parse(storedEvents).map((event: any) => ({
-        ...event,
-        start: DateTime.fromISO(event.start),
-        end: DateTime.fromISO(event.end),
-      })));
+      setEvents(
+        JSON.parse(storedEvents).map((event: any) => ({
+          ...event,
+          start: DateTime.fromISO(event.start),
+          end: DateTime.fromISO(event.end),
+        }))
+      );
     }
   }, []);
 
   // Save events to local storage on change
   useEffect(() => {
-    localStorage.setItem('events', JSON.stringify(events));
+    localStorage.setItem("events", JSON.stringify(events));
   }, [events]);
 
   const addEvent = (newEvent: Event) => {
@@ -40,24 +42,32 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const editEvent = (updatedEvent: Event) => {
-    setEvents(events.map(event => (event.id === updatedEvent.id ? updatedEvent : event)));
+    setEvents(
+      events.map((event) =>
+        event.id === updatedEvent.id ? updatedEvent : event
+      )
+    );
   };
 
   const updateEvent = (id: number | string, updatedEvent: Event) => {
-  setEvents(events.map(event => {
-    if (event.id === id) {
-      return { ...event, ...updatedEvent };
-    }
-    return event;
-  }));
-};
+    setEvents(
+      events.map((event) => {
+        if (event.id === id) {
+          return { ...event, ...updatedEvent };
+        }
+        return event;
+      })
+    );
+  };
 
   const deleteEvent = (id: number | string) => {
-    setEvents(events.filter(event => event.id !== id));
+    setEvents(events.filter((event) => event.id !== id));
   };
 
   return (
-    <EventContext.Provider value={{ events, addEvent, editEvent, updateEvent, deleteEvent }}>
+    <EventContext.Provider
+      value={{ events, addEvent, editEvent, updateEvent, deleteEvent }}
+    >
       {children}
     </EventContext.Provider>
   );

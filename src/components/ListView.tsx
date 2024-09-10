@@ -1,8 +1,9 @@
-// ListView.tsx
-import { useState } from 'react';
-import useEvents from '../customHooks/useEvents'; // Import the useEvents custom hook
-import EventModal from './EventModal';
-import { Event } from '../types/EventTypes';
+import { useState } from "react";
+import useEvents from "../customHooks/useEvents"; // Import the useEvents custom hook
+import EventModal from "./EventModal";
+import { Event } from "../types/EventTypes";
+import styles from "../styles/ListView.module.css";
+
 
 const ListView = () => {
   const { events, deleteEvent } = useEvents(); // Use the custom hook to access events and functions
@@ -15,13 +16,16 @@ const ListView = () => {
   };
 
   return (
-    <div className="list-view">
+    <div className={styles.listView}>
       <h1>Event List</h1>
       <button onClick={() => handleOpenModal()}>Create Event</button>
       <ul>
-        {events.map(event => (
+        {events.map((event) => (
           <li key={event.id}>
-            <strong>{event.title}</strong> - {event.start.toLocaleString()} to {event.end.toLocaleString()}
+            <strong>{event.title}</strong> -{" "}
+            <span className="">
+              {event.start.toLocaleString()} to {event.end.toLocaleString()}
+            </span>
             <button onClick={() => handleOpenModal(event)}>Edit</button>
             <button onClick={() => deleteEvent(event.id)}>Delete</button>
           </li>
